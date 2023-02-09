@@ -6,7 +6,7 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:56:20 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/01/25 15:15:01 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/01/26 12:12:04 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 typedef struct s_stack
 {
-	int	*nums;
-	int	size;
+	int	*n;
+	int	s;
 }	t_stack;
 
 void	print_stacks(t_stack a, t_stack b);
@@ -49,20 +49,18 @@ int	ft_atoi(const char *ptr);
 
 int	find_min(t_stack *stack);
 int	find_max(t_stack *stack);
-int	min_to_top(t_stack *stack, int min_index, int s);
-int	max_to_top(t_stack *stack, int max_index, int s);
-int	merge_stacks(t_stack *a, t_stack *b, int size);
-int	push_to_a(t_stack *a, t_stack *b, int size);
-int	push_to_b(t_stack *a, t_stack *b, int size);
-int	rotate_a(t_stack *a, int size);
-int	rrotate_a(t_stack *a, int size);
+void	num_to_top(t_stack *stack, int num_index, int s);
+void	merge_stacks(t_stack *a, t_stack *b, int size);
+void	push_to_a(t_stack *a, t_stack *b, int size);
+void	push_to_b(t_stack *a, t_stack *b, int size);
+void	rotate_a(t_stack *a, int size);
+void	rrotate_a(t_stack *a, int size);
 
 int	sorted(t_stack *stack);
 int	repeat(t_stack *stack);
-int	pick_sort(t_stack *a, t_stack *b, int size);
-int	pick_sort_reverse(t_stack *b, t_stack *a, int size);
+void	pick_sort(t_stack *a, t_stack *b, int size);
 
-int	sort_small_stack(t_stack *a, t_stack *b);
-int	sort_big_stack(t_stack *a, t_stack *b);
+void	sort_small_stack(t_stack *a, t_stack *b);
+void	sort_big_stack(t_stack *a, t_stack *b);
 
 #endif

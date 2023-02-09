@@ -6,144 +6,115 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 00:04:09 by nucieda           #+#    #+#             */
-/*   Updated: 2023/01/25 15:14:43 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/01/28 16:53:10 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-//! try to get it to work with ANY stack size (not just powers of 2)
+int		calculate_stack_size(t_stack *stack);
+void	sort_stacks(t_stack *a, t_stack *b, int elements, int iterations);
+void	fix_stack(t_stack *a, t_stack *b);
 
-int	sort_big_stack(t_stack *a, t_stack *b)
+void	sort_big_stack(t_stack *a, t_stack *b)
 {
-	int	count;
 	int	iterations;
 	int	elements;
 	int	i;
 
-	count = (a->size / 133) + 1;
+	i = (a->s / 133) + 1;
 	iterations = 2;
-	while (count--)
+	while (i--)
 		iterations *= 2;
-	elements = a->size / iterations;
+	elements = a->s / iterations;
 	i = iterations;
-	while (i--) //sort [elements] stacks with pick sort, then shuffle the sorted stack to the bottom
+	while (i--)
 	{
-		count += push_to_b(a, b, elements);
-		count += pick_sort_reverse(b, a, elements);
-		count += rotate_a(a, elements);
+		push_to_b(a, b, elements);
+		pick_sort(b, a, elements);
+		rotate_a(a, elements);
 	}
-	push_to_b(a, b, a->size % iterations);
-	while (iterations >= 2) //merge stacks together, making sure the first stack doesn't rotate
+	push_to_b(a, b, a->s % iterations);
+	sort_stacks(a, b, elements, iterations);
+	fix_stack(a, b);
+}
+
+void	sort_stacks(t_stack *a, t_stack *b, int elements, int iterations)
+{
+	int	i;
+
+	i = 0;
+	while (iterations >= 2)
 	{
-		count += push_to_b(a, b, elements);
-		count += merge_stacks(a, b, elements);
+		push_to_b(a, b, elements);
+		merge_stacks(a, b, elements);
 		i = (iterations / 2) - 1;
 		while (i--)
 		{
-			count += rrotate_a(a, elements);
-			count += push_to_b(a, b, elements);
-			count += merge_stacks(a, b, elements);
+			rrotate_a(a, elements);
+			push_to_b(a, b, elements);
+			merge_stacks(a, b, elements);
 		}
-		iterations /= 2; //half the stacks
-		elements *= 2; //twice the size
+		iterations /= 2;
+		elements *= 2;
 	}
-	if (!sorted(a)) //final rotation cuz sometimes it doesnt want to play nice
-		ra(a);
-	count++;
-	while (b->size) //go through the a stack and insert the extra bits from b smallest->biggest
-	{
-		count += min_to_top(b, find_min(b), 0);
-		while (b->nums[0] > a->nums[0] && b->nums[0] < a->nums[find_max(a)]) //rotate until you find the spot it goes in
-			{
-				ra(a);
-				count++;
-			}
-		if (b->nums[0] > a->nums[find_max(a)]) //if its the biggest one, put it in correctly
-			{
-				max_to_top(a, find_max(a), 1);
-				ra(a);
-			}
-		pb(a, b);
-		count++;
-	}
-	min_to_top(a, find_min(a), 1); //orient it correctly
-	
-	return (count);
 }
 
-int	merge_stacks(t_stack *a, t_stack *b, int size)
+void	fix_stack(t_stack *a, t_stack *b)
 {
-	int	s;
+	if (!sorted(a))
+		ra(a);
+	while (b->s)
+	{
+		num_to_top(b, find_min(b), 0);
+		while (b->n[0] > a->n[0] && b->n[0] < a->n[find_max(a)])
+			ra(a);
+		if (b->n[0] > a->n[find_max(a)])
+		{
+			num_to_top(a, find_max(a), 1);
+			ra(a);
+		}
+		pb(a, b);
+	}
+	num_to_top(a, find_min(a), 1);
+}
+
+void	merge_stacks(t_stack *a, t_stack *b, int size)
+{
 	int	e;
 	int	av_size;
-	int count;
+
+	e = 0;
+	av_size = calculate_stack_size(a);
+	while (size)
+	{
+		if ((b->n[0] > a->n[a->s - 1]) || e == av_size || (sorted(a) && e))
+		{
+			pb(a, b);
+			size--;
+		}
+		else
+		{
+			rra(a);
+			e++;
+		}
+	}
+	while (e++ < av_size)
+		rra(a);
+}
+
+int	calculate_stack_size(t_stack *stack)
+{
+	int	s;
+	int	ssize;
 
 	s = 0;
-	e = 0;
-	av_size = 0;
+	ssize = 0;
 	while (!s)
 	{
-		if (a->nums[a->size - 1 - av_size] < a->nums[a->size - 2 - av_size]) //find the size of each "stack"
-			s = size;
-		av_size++;
+		if (stack->n[stack->s - 1 - ssize] < stack->n[stack->s - 2 - ssize])
+			s = 1;
+		ssize++;
 	}
-	while (s) // rotate through the stack, inserting elements one by one
-	{
-		if ((b->nums[0] > a->nums[a->size - 1]) || e == av_size || (sorted(a) && e)) 
-		// e is for when the smallest value is in stack b, so it will insert it at the end (it counts and compares to stack size)
-		// sorted(a) is so the very last extra goes in correctly
-			{
-				pb(a, b);
-				s--;
-			}
-		else
-			{
-				rra(a);
-				e++;
-			}
-		count++;
-	}
-	count += av_size - e;
-	while (e++ < av_size) //rotate list all the way through the "stack"
-		rra(a);
-	return (count);
-}
-
-int	push_to_a(t_stack *a, t_stack *b, int size)
-{
-	int	s;
-
-	s = size;
-	while (s--)
-		pb(a, b);
-	return (size);
-}
-
-int	push_to_b(t_stack *a, t_stack *b, int size)
-{
-	int	s;
-
-	s = size;
-	while (s--)
-		pa(a, b);
-	return (size);
-}
-
-int	rotate_a(t_stack *a, int size)
-{
-	int	s;
-	s = size;
-	while (s--)
-		ra(a);
-	return (size);
-}
-
-int	rrotate_a(t_stack *a, int size)
-{
-	int	s;
-	s = size;
-	while (s--)
-		rra(a);
-	return (size);
+	return (ssize);
 }

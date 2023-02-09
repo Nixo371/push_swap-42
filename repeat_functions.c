@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pick_sort.c                                        :+:      :+:    :+:   */
+/*   repeat_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 17:14:18 by nucieda           #+#    #+#             */
-/*   Updated: 2023/01/28 16:34:03 by nucieda          ###   ########.fr       */
+/*   Created: 2023/01/26 12:25:14 by nucieda           #+#    #+#             */
+/*   Updated: 2023/01/26 12:26:07 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	pick_sort(t_stack *b, t_stack *a, int size)
+void	push_to_a(t_stack *a, t_stack *b, int s)
 {
-	while (size-- && b->s)
-	{
-		num_to_top(b, find_max(b), 0);
+	while (s--)
 		pb(a, b);
-	}
+}
+
+void	push_to_b(t_stack *a, t_stack *b, int s)
+{
+	while (s--)
+		pa(a, b);
+}
+
+void	rotate_a(t_stack *a, int s)
+{
+	while (s--)
+		ra(a);
+}
+
+void	rrotate_a(t_stack *a, int s)
+{
+	while (s--)
+		rra(a);
 }
