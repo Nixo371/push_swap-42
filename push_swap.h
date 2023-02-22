@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nucieda- <nucieda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:56:20 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/01/26 12:12:04 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:01:07 by nucieda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	rrb(t_stack *stack);
 void	reverse_rotate(t_stack *stack);
 void	rrr(t_stack *a, t_stack *b);
 
-int	ft_atoi(const char *ptr);
+int		ft_atoi(const char *ptr);
 
-int	find_min(t_stack *stack);
-int	find_max(t_stack *stack);
+int		find_min(t_stack *stack);
+int		find_max(t_stack *stack);
 void	num_to_top(t_stack *stack, int num_index, int s);
 void	merge_stacks(t_stack *a, t_stack *b, int size);
 void	push_to_a(t_stack *a, t_stack *b, int size);
@@ -56,8 +56,8 @@ void	push_to_b(t_stack *a, t_stack *b, int size);
 void	rotate_a(t_stack *a, int size);
 void	rrotate_a(t_stack *a, int size);
 
-int	sorted(t_stack *stack);
-int	repeat(t_stack *stack);
+int		sorted(t_stack *stack);
+int		repeat(t_stack *stack);
 void	pick_sort(t_stack *a, t_stack *b, int size);
 
 void	sort_small_stack(t_stack *a, t_stack *b);
