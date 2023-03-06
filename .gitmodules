@@ -1,0 +1,6 @@
+[submodule "push_swap-42"]
+	path = push_swap-42
+	url = https://github.com/Nixo371/push_swap-42
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Nixo371/libft

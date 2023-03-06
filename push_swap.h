@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nucieda- <nucieda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:56:20 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/02/22 15:01:07 by nucieda-         ###   ########.fr       */
+/*   Updated: 2023/03/06 10:43:21 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <stddef.h>
+# include "libft/libft.h"
 
 typedef struct s_stack
 {
@@ -58,6 +59,8 @@ void	rrotate_a(t_stack *a, int size);
 
 int		sorted(t_stack *stack);
 int		repeat(t_stack *stack);
+int		error_check(t_stack *a, char **argv);
+int		numbers(char **argv);
 void	pick_sort(t_stack *a, t_stack *b, int size);
 
 void	sort_small_stack(t_stack *a, t_stack *b);

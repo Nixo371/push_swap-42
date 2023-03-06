@@ -6,7 +6,7 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:54:38 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/01/26 12:14:50 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/03/06 10:47:51 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	main(int argc, char **argv)
 		b->s = 0;
 		while (++i < a->s)
 			a->n[i] = ft_atoi(argv[i + 1]);
-		if (sorted(a) || repeat(a))
-			return (0);
+		if (repeat(a) || sorted(a) || numbers(argv))
+			return (error_check(a, argv));
 		if (argc <= 6)
 			sort_small_stack(a, b);
 		else
@@ -73,5 +73,38 @@ int	repeat(t_stack *stack)
 		i++;
 		j = i + 1;
 	}
+	return (0);
+}
+
+int numbers(char **argv)
+{
+	int i;
+	int j;
+
+	i = 1;
+	j = 0;
+	while(argv[i])
+	{
+		while (argv[i][j])
+		{
+			if (!(ft_isdigit(argv[i][j]) || argv[i][j] == '-'))
+				return (1);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
+}
+
+int	error_check(t_stack *a, char **argv)
+{
+	if (repeat(a) || numbers(argv))
+	{
+		ft_putstr_fd("Error\n", STDOUT_FILENO);
+		return (0);
+	}
+	if (sorted(a))
+		return (0);
 	return (0);
 }
