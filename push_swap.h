@@ -6,7 +6,7 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:56:20 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/03/06 10:43:21 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:17:54 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <stddef.h>
+# include <limits.h>
 # include "libft/libft.h"
 
 typedef struct s_stack
@@ -46,7 +47,8 @@ void	rrb(t_stack *stack);
 void	reverse_rotate(t_stack *stack);
 void	rrr(t_stack *a, t_stack *b);
 
-int		ft_atoi(const char *ptr);
+long int	ft_long_atoi(const char *ptr);
+int make_stack(t_stack *a, char **argv);
 
 int		find_min(t_stack *stack);
 int		find_max(t_stack *stack);

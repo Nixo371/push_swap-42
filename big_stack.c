@@ -6,7 +6,7 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 00:04:09 by nucieda           #+#    #+#             */
-/*   Updated: 2023/02/22 10:36:29 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/03/06 19:25:22 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	sort_big_stack(t_stack *a, t_stack *b)
 	{
 		push_to_b(a, b, elements);
 		pick_sort(b, a, elements);
-		if (i)
-			rotate_a(a, elements);
+		rotate_a(a, elements);
 	}
 	push_to_b(a, b, a->s % iterations);
 	sort_stacks(a, b, elements, iterations);

@@ -6,7 +6,7 @@
 /*   By: nucieda <nucieda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:54:38 by nucieda-          #+#    #+#             */
-/*   Updated: 2023/03/06 10:47:51 by nucieda          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:34:31 by nucieda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
-	int		i;
-
-	i = -1;
+	
 	if (argc <= 2)
 		return (0);
 	else
@@ -29,8 +27,8 @@ int	main(int argc, char **argv)
 		b->n = calloc(argc - 1, sizeof(int));
 		a->s = argc - 1;
 		b->s = 0;
-		while (++i < a->s)
-			a->n[i] = ft_atoi(argv[i + 1]);
+		if (!make_stack(a, argv))
+			return (0);
 		if (repeat(a) || sorted(a) || numbers(argv))
 			return (error_check(a, argv));
 		if (argc <= 6)
@@ -41,70 +39,63 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-int	sorted(t_stack *stack)
+static int	ft_calculate(char n)
+{
+	char	*base;
+	int		i;
+
+	base = "0123456789";
+	i = 0;
+	while (n != base[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+long int	ft_long_atoi(const char *ptr)
 {
 	int	i;
+	long int	num;
+	int	neg;
 
 	i = 0;
-	while (stack->s - 1 > i)
-	{
-		if (stack->n[i] > stack->n[i + 1])
-			return (0);
+	num = 0;
+	neg = 1;
+	while (ptr[i] == ' ' || (ptr[i] >= 9 && ptr[i] <= 13))
 		i++;
+	if (ptr[i] == '+')
+		i++;
+	else if (ptr[i] == '-')
+	{
+		neg *= -1;
+		i++;
+	}
+	while (ptr[i] != '\0')
+	{
+		if (ptr[i] < '0' || ptr[i] > '9')
+			return (num * neg);
+		num = (num * 10) + ft_calculate(ptr[i]);
+		i++;
+	}
+	return (num * neg);
+}
+
+int make_stack(t_stack *a, char **argv)
+{
+	int 		i;
+	long int	input;
+
+	i = -1;
+	while (++i < a->s)
+	{
+		input = ft_long_atoi(argv[i + 1]);
+		if (input > INT_MAX || input < INT_MIN)
+		{
+			ft_putstr_fd("Error\n", STDOUT_FILENO);
+			return (0);
+		}
+		a->n[i] = input;	
 	}
 	return (1);
-}
-
-int	repeat(t_stack *stack)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 1;
-	while (i < stack->s)
-	{
-		while (j < stack->s)
-		{
-			if (stack->n[i] == stack->n[j])
-				return (1);
-			j++;
-		}
-		i++;
-		j = i + 1;
-	}
-	return (0);
-}
-
-int numbers(char **argv)
-{
-	int i;
-	int j;
-
-	i = 1;
-	j = 0;
-	while(argv[i])
-	{
-		while (argv[i][j])
-		{
-			if (!(ft_isdigit(argv[i][j]) || argv[i][j] == '-'))
-				return (1);
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (0);
-}
-
-int	error_check(t_stack *a, char **argv)
-{
-	if (repeat(a) || numbers(argv))
-	{
-		ft_putstr_fd("Error\n", STDOUT_FILENO);
-		return (0);
-	}
-	if (sorted(a))
-		return (0);
-	return (0);
 }
